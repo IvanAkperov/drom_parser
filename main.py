@@ -118,14 +118,28 @@ def parsing(value: str):
 if __name__ == "__main__":
     order = order_by()
     dist = get_distance_search()
-    for page in range(1, get_count_of_pages()[1] + 1):
-        print(f"Парсинг {page} страницы...")
-        main_url = f"https://spb.drom.ru/auto/all/page{page}?minprice={prices[0]}&" \
-            f"maxprice={prices[1]}&minyear={year[0]}&maxyear={year[1]}" \
-            f"&inomarka=1&unsold=1&minprobeg={mileage[0]}&maxprobeg={mileage[1]}&{order}&distance={dist}"
-        parsing(value=main_url)
-        sleep(1)
+    flag = False
+    if get_count_of_pages()[1] <= 15:
+        for page in range(1, get_count_of_pages()[1] + 1):
+            print(f"Парсинг {page} страницы...")
+            main_url = f"https://spb.drom.ru/auto/all/page{page}?minprice={prices[0]}&" \
+                f"maxprice={prices[1]}&minyear={year[0]}&maxyear={year[1]}" \
+                f"&inomarka=1&unsold=1&minprobeg={mileage[0]}&maxprobeg={mileage[1]}&{order}&distance={dist}"
+            parsing(value=main_url)
+            sleep(1)
 
+    else:
+        flag = True
+        print("По вашему результату найдено много страниц. Чтобы сократить время ожидания, я выведу первые 15 страниц.")
+        sleep(3.5)
+        for page in range(1, 16):
+            print(f"Парсинг {page} страницы...")
+            main_url = f"https://spb.drom.ru/auto/all/page{page}?minprice={prices[0]}&" \
+                f"maxprice={prices[1]}&minyear={year[0]}&maxyear={year[1]}" \
+                f"&inomarka=1&unsold=1&minprobeg={mileage[0]}&maxprobeg={mileage[1]}&{order}&distance={dist}"
+            parsing(value=main_url)
+            sleep(1)
     print(f"По вашему запросу было найдено {get_count_of_pages()[0]}\nБыло выведено: "
-          f"{get_count_of_pages()[1] * 20}/{get_count_of_pages()[0]}")
+          f"{15 * 20 if flag else get_count_of_pages()[1] * 20}/{get_count_of_pages()[0]}")
     print(f"Для дальнейшего ознакомления Вы можете перейти по ссылке {main_url}")
+input()
