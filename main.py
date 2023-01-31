@@ -115,7 +115,7 @@ def parsing(value: str):
         pretty_table(model_info=model, main_info=info, price_info=price, link_info=link)
 
 
-if __name__ == "__main__":
+def main():
     order = order_by()
     dist = get_distance_search()
     flag = False
@@ -123,8 +123,8 @@ if __name__ == "__main__":
         for page in range(1, get_count_of_pages()[1] + 1):
             print(f"Парсинг {page} страницы...")
             main_url = f"https://spb.drom.ru/auto/all/page{page}?minprice={prices[0]}&" \
-                f"maxprice={prices[1]}&minyear={year[0]}&maxyear={year[1]}" \
-                f"&inomarka=1&unsold=1&minprobeg={mileage[0]}&maxprobeg={mileage[1]}&{order}&distance={dist}"
+                       f"maxprice={prices[1]}&minyear={year[0]}&maxyear={year[1]}" \
+                       f"&inomarka=1&unsold=1&minprobeg={mileage[0]}&maxprobeg={mileage[1]}&{order}&distance={dist}"
             parsing(value=main_url)
             sleep(1)
 
@@ -135,11 +135,16 @@ if __name__ == "__main__":
         for page in range(1, 16):
             print(f"Парсинг {page} страницы...")
             main_url = f"https://spb.drom.ru/auto/all/page{page}?minprice={prices[0]}&" \
-                f"maxprice={prices[1]}&minyear={year[0]}&maxyear={year[1]}" \
-                f"&inomarka=1&unsold=1&minprobeg={mileage[0]}&maxprobeg={mileage[1]}&{order}&distance={dist}"
+                       f"maxprice={prices[1]}&minyear={year[0]}&maxyear={year[1]}" \
+                       f"&inomarka=1&unsold=1&minprobeg={mileage[0]}&maxprobeg={mileage[1]}&{order}&distance={dist}"
             parsing(value=main_url)
             sleep(1)
     print(f"По вашему запросу было найдено {get_count_of_pages()[0]}\nБыло выведено: "
           f"{15 * 20 if flag else get_count_of_pages()[1] * 20}/{get_count_of_pages()[0]}")
     print(f"Для дальнейшего ознакомления Вы можете перейти по ссылке {main_url}")
-input()
+
+
+if __name__ == "__main__":
+    main()
+    input()
+    
